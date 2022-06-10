@@ -20,11 +20,11 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       
-      // appBar: AppBar(
-      //   title: const Text('Bem vindo, Salve suas senhas!'),
-      //   centerTitle: true,
-      //   backgroundColor: const Color(0xFF22272D),
-      // ),
+      appBar: AppBar(
+        title: const Text('Gerenciador de Senhas!', style: TextStyle(color:const Color(0xFFD31334), fontSize: 25, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: const Color(0xFF22272D),
+      ),
 
       backgroundColor: const Color(0xFF22272D), //#22272D
       
@@ -40,16 +40,26 @@ class _LoginPageState extends State<LoginPage> {
             campoTexto('Senha', txtSenha, Icons.lock, senha: true),
             const SizedBox(height: 10),
 
-            TextButton(onPressed: (){}, child: const Text('Esqueceu a senha?', textAlign: TextAlign.end,)),
+            //TextButton(onPressed: (){}, child: const Text('Esqueceu a senha?', textAlign: TextAlign.end,)),
+            TextButton(
+              style: OutlinedButton.styleFrom(
+                primary: const Color(0xFFD31334), //#D31334
+              ),
+              child: const Text('Esqueceu a senha?', textAlign: TextAlign.end, style: TextStyle(fontSize: 12)),
+              onPressed: () {
+               
+              },  
+            ),
+
             const SizedBox(height: 30),
 
             OutlinedButton(
               style: OutlinedButton.styleFrom(
                 primary: Colors.white,
-                minimumSize: const Size(200, 45),
+                minimumSize: const Size(200, 45), 
                 backgroundColor: const Color(0xFFD31334),
               ),
-              child: const Text('ENTRAR'),
+              child: const Text('Entrar'),
               onPressed: () {
                 login(txtEmail.text, txtSenha.text);
               },
@@ -72,9 +82,9 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(height: 40),
             TextButton(
               style: OutlinedButton.styleFrom(
-                primary: Colors.white, //#D31334
+                primary: const Color(0xFFD31334), //#D31334
               ),
-              child: const Text('Criar conta?'),
+              child: const Text('Criar conta?', style: TextStyle(fontSize: 18)),
               onPressed: () {
                 Navigator.pushNamed(context, 'criar_conta');
               },
@@ -94,19 +104,19 @@ class _LoginPageState extends State<LoginPage> {
       controller: controller,
       obscureText: senha != null ? true : false,
       style: const TextStyle(
-        color: Colors.grey,
+        color: const Color(0xFFD31334),
         fontWeight: FontWeight.w300,
       ),
       decoration: InputDecoration(
-        prefixIcon: Icon(icone, color: Colors.grey),
-        prefixIconColor: Colors.grey,
+        prefixIcon: Icon(icone, color: const Color(0xFFD31334)),
+        prefixIconColor: const Color(0xFFD31334),
         labelText: texto,
-        labelStyle: const TextStyle(color: Colors.grey),
+        labelStyle: const TextStyle(color: const Color(0xFFD31334)),
         border: const OutlineInputBorder(),
-        focusColor: Colors.grey,
+        focusColor: const Color(0xFFD31334),
         focusedBorder: const OutlineInputBorder(
           borderSide: BorderSide(
-            color: Colors.grey,
+            color: const Color(0xFFD31334),
             width: 0.0,
           ),
         ),

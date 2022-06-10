@@ -13,19 +13,15 @@ class PrincipalPage extends StatefulWidget {
 
 class _PrincipalPageState extends State<PrincipalPage> {
   //Declaração da coleção de senhas
-  var site;
-  var url;
-  var user;
-  var email;
-  var password;
-  var date;
+  var app_save_passwords;
+  var nomeUsuario;
 
 
   @override
   void initState() {
     super.initState();
-    app-save-passwords = FirebaseFirestore.instance
-        .collection('app-save-passwords')
+    app_save_passwords = FirebaseFirestore.instance
+        .collection('app_save_passwords')
         .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid);
   }
 
@@ -34,7 +30,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
     return Scaffold(
       
       appBar: AppBar(
-        title: const Text('Salve suas senhas!'),
+        title: const Text('Gerencie suas senhas!', style: TextStyle(color:const Color(0xFFD31334), fontSize: 25, fontWeight: FontWeight.bold)),
         centerTitle: true,
         backgroundColor: const Color(0xFF22272D),
         automaticallyImplyLeading: false,
@@ -43,6 +39,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
             children: [
               IconButton(
                 tooltip: 'sair',
+                color:const Color(0xFFD31334),
                 onPressed: () {
                   FirebaseAuth.instance.signOut();
                   Navigator.pushReplacementNamed(context, 'login');
@@ -62,7 +59,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
                   } else {
                     return Text(
                       nomeUsuario ?? '',
-                      style: const TextStyle(fontSize: 12),
+                      style: const TextStyle(fontSize: 12, color:const Color(0xFFD31334)),
                     );
                   }
                 },
@@ -75,7 +72,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
         ],
       ),
 
-      backgroundColor: const Color(0xFF22272D)[50],
+      backgroundColor: const Color(0xFF22272D),
 
       body: Container(
         padding: const EdgeInsets.all(50),
@@ -84,7 +81,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
         //
         child: StreamBuilder<QuerySnapshot>(
           //fonte de dados
-          stream: app-save-passwords.snapshots(),
+          stream: app_save_passwords.snapshots(),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.none:
@@ -97,6 +94,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
                   itemCount: dados.size,
                   itemBuilder: (context, index) {
                     return exibirDocumento(dados.docs[index]);
+                    
                   },
                 );
             }
@@ -105,7 +103,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
       ),
       floatingActionButton: FloatingActionButton(
         foregroundColor: Colors.white,
-        backgroundColor: const Color(0xFF22272D),
+        backgroundColor: const Color(0xFFD31334),
         child: const Icon(Icons.add),
         onPressed: () {
           //Navigator.pushNamed(context, 'inserir');
@@ -123,45 +121,47 @@ class _PrincipalPageState extends State<PrincipalPage> {
     String site = item.data()['site'];
     String url = item.data()['url'];
     return ListTile(
-      title: Text(site),
-      subtitle: Text(url),
+      title: Text(site, style: TextStyle(color:const Color(0xFFD31334))),
+      subtitle: Text(url, style: TextStyle(color:const Color(0xFFD31334))),
       
       // REMOVER UM DOCUMENTO
       // trailing: IconButton(
 
       //   icon: const Icon(Icons.delete_outline),
       //   onPressed: () {
-      //     FirebaseFirestore.instance.collection('app-save-passwords').doc(item.id).delete();
+      //     FirebaseFirestore.instance.collection('app_save_passwords').doc(item.id).delete();
 
       //     sucesso(context, 'Item removido com sucesso.');
       //   },
       // ), 
 
       trailing: Row(
+
         mainAxisSize: MainAxisSize.min,
         children: [
-  
+
+
           IconButton(onPressed: () {
             Navigator.pushNamed(
             context,
             'inserir',
             arguments:  {"alterar": true, "id": item.id},
         );
-          }, icon: Icon(Icons.edit)),
+          }, icon: Icon(Icons.edit, color:const Color(0xFFD31334))),
           
           
           IconButton(onPressed: () {
-            FirebaseFirestore.instance.collection('app-save-passwords').doc(item.id).delete();
+            FirebaseFirestore.instance.collection('app_save_passwords').doc(item.id).delete();
 
             sucesso(context, 'Item removido com sucesso.');
-          }, icon: Icon(Icons.delete)),
+          }, icon: Icon(Icons.delete, color:const Color(0xFFD31334))),
         ],
       ),
   
 
 
 
-      //PASSAR COMO ARGUMENTO O id do Café
+      //PASSAR COMO ARGUMENTO O id do Gerenciador
       onTap: () {
         Navigator.pushNamed(
           context,
@@ -170,7 +170,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
         );
       },
     );
-  }
+  } 
 
   retornarUsuarioLogado() async {
     var uid = FirebaseAuth.instance.currentUser!.uid;

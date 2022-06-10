@@ -12,26 +12,34 @@ class InserirPage extends StatefulWidget {
 }
 
 class _InserirPageState extends State<InserirPage> {
-  var txtNome = TextEditingController();
-  var txtPreco = TextEditingController();
+  var txtSite = TextEditingController();
+  var txtURL = TextEditingController();
+  var txtUser = TextEditingController();
+  var txtEmail = TextEditingController();
+  var txtPassword = TextEditingController();
+  var txtDate = TextEditingController();
   bool alterar = true;
 
   //Retonar um documento pelo ID
   retornarDocumentoById(id) async{
     await FirebaseFirestore.instance
-      .collection('cafes')
+      .collection('app_save_passwords')
       .doc(id)
       .get()
       .then((doc){
-        txtNome.text = doc.get('nome');
-        txtPreco.text = doc.get('preco');
+        txtSite.text = doc.get('site');
+        txtURL.text = doc.get('url');
+        txtUser.text = doc.get('user');
+        txtEmail.text = doc.get('email');
+        txtPassword.text = doc.get('password');
+        txtDate.text = doc.get('date');
       });
   }
 
   @override
   Widget build(BuildContext context) {
 
-    //Recuperar o id do Café
+    //Recuperar o id do Gerenciador
     var data = ModalRoute.of(context)!.settings.arguments as Map<String,dynamic>;
     var id = data['id'];
     alterar = data['alterar'];
@@ -39,7 +47,7 @@ class _InserirPageState extends State<InserirPage> {
     print(data);
 
     if (id!=null){
-      if (txtNome.text.isEmpty && txtPreco.text.isEmpty){
+      if (txtSite.text.isEmpty && txtURL.text.isEmpty){
         retornarDocumentoById(id);
       }
     }
@@ -47,70 +55,107 @@ class _InserirPageState extends State<InserirPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Café Store'),
+        title: const Text('Gerencie suas senhas!', style: TextStyle(color:const Color(0xFFD31334), fontSize: 25, fontWeight: FontWeight.bold)),
         centerTitle: true,
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.brown,
+        backgroundColor: const Color(0xFF22272D),
       ),
-      backgroundColor: Colors.brown[50],
+
+      backgroundColor: const Color(0xFF22272D),
+
       body: Container(
         padding: const EdgeInsets.all(50),
         child: ListView(
           children: [
-            campoTexto('Nome', txtNome, Icons.coffee_outlined, alterar: alterar),
+            campoTexto('Site', txtSite, Icons.web, alterar: alterar),
             const SizedBox(height: 20),
-            campoTexto('Preço', txtPreco, Icons.monetization_on_outlined, alterar: alterar),
+
+            campoTexto('URL', txtURL, Icons.link, alterar: alterar),
+            const SizedBox(height: 20),
+
+            campoTexto('Usuário', txtUser, Icons.person, alterar: alterar),
+            const SizedBox(height: 20),
+
+            campoTexto('E-mail', txtEmail, Icons.mail, alterar: alterar),
+            const SizedBox(height: 20),
+
+            campoTexto('Senha', txtPassword, Icons.password, alterar: alterar),
+            const SizedBox(height: 20),
+
+            campoTexto('Data de Atualização', txtDate, Icons.date_range, alterar: alterar),
             const SizedBox(height: 40),
+            
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                
                 SizedBox(
                   width: 150,
+                  
+                
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      primary: Colors.brown.shade900,
+                      primary: Colors.white,
+                      backgroundColor: const Color(0xFFD31334),
                     ),
-                    child: const Text('salvar'),
-                    onPressed: () {
+                    child: const Text('Salvar'),
 
+                   
+                    onPressed: !alterar ? null : () {
+                      
                       if ( id == null){
                         //Adicionar um novo documento
                         FirebaseFirestore.instance
-                          .collection('cafes')
+                          .collection('app_save_passwords')
                           .add(
                             {
                               "uid" : FirebaseAuth.instance.currentUser!.uid,
-                              "nome" : txtNome.text,
-                              "preco": txtPreco.text,
+                              "site" : txtSite.text,
+                              "url": txtURL.text,
+                              "user": txtUser.text,
+                              "email": txtEmail.text,
+                              "password": txtPassword.text,
+                              "date": txtDate.text,
                             }
                           );
                         sucesso(context,'Item adicionado com sucesso.');
-                      }else{
+                      }
+                      
+                      else{
                         FirebaseFirestore.instance
-                          .collection('cafes')
+                          .collection('app_save_passwords')
                           .doc(id.toString())
                           .set(
                             {
                               "uid" : FirebaseAuth.instance.currentUser!.uid,
-                              "nome" : txtNome.text,
-                              "preco": txtPreco.text,
+                              "site" : txtSite.text,
+                              "url": txtURL.text,
+                              "user": txtUser.text,
+                              "email": txtEmail.text,
+                              "password": txtPassword.text,
+                              "date": txtDate.text,
                             }
                           );
                           sucesso(context,'Item alterado com sucesso.');
                       }
 
                       Navigator.pop(context);
-                    },
+                    },//onPressed
+                     
                   ),
+                
                 ),
+
                 const SizedBox(width: 10),
+
                 SizedBox(
                   width: 150,
                   child: OutlinedButton(
                       style: OutlinedButton.styleFrom(
-                        primary: Colors.brown.shade900,
+                        primary: Colors.white,
+                        backgroundColor: const Color(0xFFD31334),
                       ),
-                      child: const Text('cancelar'),
+                      child: const Text('Cancelar'),
                       onPressed: () {
                         Navigator.pop(context);
                       }),
@@ -129,19 +174,19 @@ class _InserirPageState extends State<InserirPage> {
       obscureText: senha != null ? true : false,
       readOnly: !alterar,
       style: const TextStyle(
-        color: Colors.brown,
+        color: const Color(0xFFD31334),
         fontWeight: FontWeight.w300,
       ),
       decoration: InputDecoration(
-        prefixIcon: Icon(icone, color: Colors.brown),
-        prefixIconColor: Colors.brown,
+        prefixIcon: Icon(icone, color: const Color(0xFFD31334)),
+        prefixIconColor: const Color(0xFFD31334),
         labelText: texto,
-        labelStyle: const TextStyle(color: Colors.brown),
+        labelStyle: const TextStyle(color: const Color(0xFFD31334)),
         border: const OutlineInputBorder(),
-        focusColor: Colors.brown,
+        focusColor: const Color(0xFFD31334),
         focusedBorder: const OutlineInputBorder(
           borderSide: BorderSide(
-            color: Colors.brown,
+            color: const Color(0xFFD31334),
             width: 0.0,
           ),
         ),

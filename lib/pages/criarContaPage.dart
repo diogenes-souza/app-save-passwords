@@ -19,52 +19,66 @@ class _CriarContaPageState extends State<CriarContaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       appBar: AppBar(
-          title: const Text('Café Store'),
-          centerTitle: true,
-          backgroundColor: const Color(0xFF22272D)),
+        title: const Text('Crie sua conta!', style: TextStyle(color:const Color(0xFFD31334), fontSize: 25, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: const Color(0xFF22272D)
+        ),
+
       backgroundColor: const Color(0xFF22272D),
+
       body: Container(
-        padding: const EdgeInsets.all(50),
+        padding: const EdgeInsets.all(90),
         child: ListView(
           children: [
             campoTexto('Nome', txtNome, Icons.people),
             const SizedBox(height: 20),
+
             campoTexto('Email', txtEmail, Icons.email),
             const SizedBox(height: 20),
+
             campoTexto('Senha', txtSenha, Icons.lock, senha: true),
             const SizedBox(height: 40),
+
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+
                 SizedBox(
                   width: 150,
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
                       primary: Colors.white,
                       minimumSize: const Size(200, 45),
-                      backgroundColor: const Color(0xFF22272D),
+                      backgroundColor: const Color(0xFFD31334),
                     ),
-                    child: const Text('criar'),
+                    child: const Text('Criar conta?'),
                     onPressed: () {
                       criarConta(txtNome.text, txtEmail.text, txtSenha.text);
                     },
                   ),
                 ),
+
+      
+
                 SizedBox(
                   width: 150,
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
                       primary: Colors.white,
                       minimumSize: const Size(200, 45),
-                      backgroundColor: const Color(0xFF22272D),
+                      backgroundColor: const Color(0xFFD31334),
                     ),
-                    child: const Text('cancelar'),
+                    child: const Text('Cancelar'),
                     onPressed: () {
                       Navigator.pop(context);
                     },
                   ),
                 ),
+
+
+
               ],
             ),
             const SizedBox(height: 60),
@@ -79,19 +93,19 @@ class _CriarContaPageState extends State<CriarContaPage> {
       controller: controller,
       obscureText: senha != null ? true : false,
       style: const TextStyle(
-        color: const Color(0xFF22272D),
+        color: Colors.grey,
         fontWeight: FontWeight.w300,
       ),
       decoration: InputDecoration(
-        prefixIcon: Icon(icone, color: const Color(0xFF22272D)),
-        prefixIconColor: const Color(0xFF22272D),
+        prefixIcon: Icon(icone, color:Colors.grey),
+        prefixIconColor: Colors.grey,
         labelText: texto,
-        labelStyle: const TextStyle(color: const Color(0xFF22272D)),
+        labelStyle: const TextStyle(color: Colors.grey),
         border: const OutlineInputBorder(),
-        focusColor: const Color(0xFF22272D),
+        focusColor: Colors.grey,
         focusedBorder: const OutlineInputBorder(
           borderSide: BorderSide(
-            color: const Color(0xFF22272D),
+            color: Colors.grey,
             width: 0.0,
           ),
         ),
